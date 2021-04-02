@@ -67,7 +67,7 @@ def getscore(update, context):
         if not 'games' in scoreboard or len(scoreboard['games']) == 0:
             update.message.reply_text("今天沒有球賽呦<3")
         else:
-            output = "主場 / 客場 / 節數"
+            output = "主場 / 客場 / 節數\n"
             for game in scoreboard["games"]:
                 output += game["vTeam"]["triCode"] + ":" + game["vTeam"]["score"]
                 output += " / "
@@ -87,7 +87,7 @@ def getscore(update, context):
             if check == '0':
                 update.message.reply_text("今天沒有球賽呦<3")
             else:
-                output = "主場 / 客場 / 節數"
+                output = "主場 / 客場 / 節數\n"
                 for game in scoreboard["games"]:
                     output += game["vTeam"]["triCode"] + ":" + game["vTeam"]["score"]
                     output += " / "
