@@ -78,18 +78,23 @@ def getscore(update, context):
     else:
         print(command)
         scoreboard = requests.get("http://data.nba.net/prod/v1/" + command + "/scoreboard.json").json()
-        print(scoreboard['numGames'])
-        if not 'gmaes' in scoreboard or len(scoreboard['games']) == 0:
-            update.message.reply_text("今天沒有球賽呦<3")
+        #print(scoreboard['numGames'])
+        checkif =  "numGames" in scoreboard
+        if not checkif:
+            update.message.reply_text("輸入錯誤了喔87<3")
         else:
-            output = "主場 / 客場 / 節數"
-            for game in scoreboard["games"]:
-                output += game["vTeam"]["triCode"] + ":" + game["vTeam"]["score"]
-                output += " / "
-                output += game["hTeam"]["triCode"] + ":" + game["hTeam"]["score"]
-                output += " / "
-                output += str(game["period"]["current"]) + " " + str(game["clock"]) + "\n"
-            update.message.reply_text(output)
+            check = str(scoreboard['numGames'])
+            if check == '0':
+                update.message.reply_text("今天沒有球賽呦<3")
+            else:
+                output = "主場 / 客場 / 節數"
+                for game in scoreboard["games"]:
+                    output += game["vTeam"]["triCode"] + ":" + game["vTeam"]["score"]
+                    output += " / "
+                    output += game["hTeam"]["triCode"] + ":" + game["hTeam"]["score"]
+                    output += " / "
+                    output += str(game["period"]["current"]) + " " + str(game["clock"]) + "\n"
+                update.message.reply_text(output)
 
 
 def main():
@@ -97,7 +102,9 @@ def main():
     # Create the Updater and pass it your bot's token.
     # Make sure to set use_context=True to use the new context based callbacks
     # Post version 12 this will no longer be necessary
-    updater = Updater("1707087781:AAHKyP3CIkapFZQR2Kfnxz1_t3AObvzsLjM", use_context=True)
+    api = open('api.txt','r')
+    api_cont = api.read().strip()
+    updater = Updater(api_cont, use_context=True)
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
